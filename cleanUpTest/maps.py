@@ -1,4 +1,3 @@
-import pygame
 from random import random
 from constants import *
 
