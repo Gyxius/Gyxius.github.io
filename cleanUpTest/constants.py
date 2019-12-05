@@ -20,6 +20,12 @@ LIGHT_BLUE = (21,223,223)
 # FPS
 
 FPS = 10
+
+
+# Grid
+
 WIDTH = 32
 HEIGHT = 32
-
+cols = SCREEN_WIDTH/WIDTH
+rows = SCREEN_HEIGHT/HEIGHT
+grid = []
