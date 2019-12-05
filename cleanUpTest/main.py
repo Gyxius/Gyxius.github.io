@@ -17,7 +17,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 game = True
 
 # Initializing the player
-
+Gyxius = Player("Gyxius", 1, "test_sprite")
 
 while game:
 
