@@ -25,7 +25,7 @@ game = True
 Gyxius = Player("Gyxius", 1, "test_sprite")
 
 while game:
-
+    Gyxius.getEvent()
     screen.fill(WHITE)
     pygame.display.update()
     clock.tick(FPS)
