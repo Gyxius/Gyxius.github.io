@@ -48,3 +48,13 @@ def mapInit():
         for row in range(rows):
             grid[column][row].addNeighbors(grid)
 
+def blockInit():
+    blockList = []
+    for column in range(cols):
+        for row in range(rows):
+            if grid[column][row].wall = True
+                x=int(WSIZE*grid[column][row].col)
+                y=int(HSIZE*grid[column][row].row)
+                blockList.append(pygame.Rect((x,y,WSIZE,HSIZE))
+
+    return blockList
