@@ -22,7 +22,7 @@ class maps():
             self.wall=True
 
     def draw(self,color):
-       pygame.draw.rect(screen,(color),[WSIZE*self.col,HSIZE*self.row,WSIZE,HSIZE])
+       pygame.draw.rect(screen,(color),[WIDTH*self.col,HEIGHT*self.row,WIDTH,HEIGHT])
     
 
     def addNeighbors(self,cell):
