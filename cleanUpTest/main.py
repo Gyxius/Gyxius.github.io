@@ -35,36 +35,43 @@ Monster1.set_sprite('Sprites/004.png')
 #selecting one character sprite within the image 002.png
 Player1.set_crop_image(Player1.image,(96,0,32,32))
 Monster1.set_crop_image(Monster1.image,(96,0,32,32))
+pygame.key.set_repeat(1,50)
+
 while game:
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                Player1.position = 1
-                Player1.movex = -32
-                Player1.movey = 0
-            if event.key == pygame.K_RIGHT:
+        if event.type == pygame.KEYDOWN:   
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_RIGHT]:
                 Player1.position = 2
-                Player1.movex = 32
-                Player1.movey = 0
-            if event.key == pygame.K_UP:
+                Player1.Fx += move
+                if (Player1.get_Frect().collidelist(block)) != -1:
+                    Player1.Fx = Player1.posx
+                else:
+                    Player1.posx = Player1.Fx 
+            if keys[pygame.K_LEFT]:
+                Player1.position = 1
+                Player1.Fx -= move
+                if (Player1.get_Frect().collidelist(block)) != -1:
+                    Player1.Fx = Player1.posx
+                else:
+                    Player1.posx = Player1.Fx 
+            if keys[pygame.K_UP]:
                 Player1.position = 3
-                Player1.movex = 0
-                Player1.movey = -32
-            if event.key == pygame.K_DOWN:
+                Player1.Fy -= move
+                if (Player1.get_Frect().collidelist(block)) != -1:
+                    Player1.Fy = Player1.posy
+                else:
+                    Player1.posy = Player1.Fy 
+            if keys[pygame.K_DOWN]:
                 Player1.position = 0
-                Player1.movex = 0
-                Player1.movey = 32
-            Player1.set_crop_image(Player1.image,(96,0,32,32))
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:         
-                Player1.movex = 0
-            if event.key == pygame.K_UP or event.key == pygame.K_DOWN:          
-                Player1.movey = 0
-
-    Player1.posx = Player1.posx + Player1.movex
-    Player1.posy = Player1.posy + Player1.movey
+                Player1.Fy += move
+                if (Player1.get_Frect().collidelist(block)) != -1:
+                    Player1.Fy = Player1.posy
+                else:
+                    Player1.posy = Player1.Fy
     screen.fill(WHITE)
     for column in range(cols):
         for row in range(rows):
