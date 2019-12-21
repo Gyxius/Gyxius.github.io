@@ -7,11 +7,11 @@ class Character(object):
     def __init__(self, id_character):
         """ Each character has a sprite and a unique id number """
         self.id = id_character
-        self.posx = 300 # We are assuming that the spawning is on positon (300,300)
-        self.posy = 300
+        self.posx = 0
+        self.posy = 0
         self.life = 100
-        self.movex = 0
-        self.movey = 0
+        self.Fx = 0
+        self.Fy = 0
         self.position = 0 # it is the initial position of the sprite with 0 being bottom, 1 left, 2 right, and 3 top
         
     def set_sprite(self,image):
@@ -45,17 +45,10 @@ class Character(object):
         crop = (cropdown,cropleft,cropright,cropup)
         return crop
 
-    def set_movex(self, movex):
-        self.movex = movex
-        
-    def set_movey(self, movey):
-        self.movey = movey
-        
-    def get_movex(self):
-        return self.movex
-    
-    def get_movey(self, movey):
-        return self.movey
+    def get_rect(self):
+        return pygame.Rect(self.posx,self.posy,32,32)
+    def get_Frect(self):
+        return pygame.Rect(self.Fx,self.Fy,32,32)
     
     
 class Player(Character):
