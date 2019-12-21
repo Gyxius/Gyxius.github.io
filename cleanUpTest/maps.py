@@ -1,3 +1,4 @@
+import pygame
 from random import random
 from constants import *
 
@@ -52,9 +53,9 @@ def blockInit():
     blockList = []
     for column in range(cols):
         for row in range(rows):
-            if grid[column][row].wall = True
-                x=int(WSIZE*grid[column][row].col)
-                y=int(HSIZE*grid[column][row].row)
-                blockList.append(pygame.Rect((x,y,WSIZE,HSIZE))
+            if (grid[column][row].wall)==True:
+                x=int(WIDTH*grid[column][row].col)
+                y=int(HEIGHT*grid[column][row].row)
+                blockList.append(pygame.Rect((x,y,WIDTH,HEIGHT)))
 
     return blockList
