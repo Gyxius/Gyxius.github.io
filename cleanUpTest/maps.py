@@ -21,7 +21,7 @@ class maps():
             self.wall=True
 
     def draw(self,color):
-       pygame.draw.rect(screen,(color),[WSIZE*self.col,HSIZE*self.row,WSIZE,HSIZE])
+       pygame.draw.rect(screen,(color),[WIDTH*self.col,HEIGHT*self.row,WIDTH,HEIGHT])
     
 
     def addNeighbors(self,cell):
@@ -52,9 +52,9 @@ def blockInit():
     blockList = []
     for column in range(cols):
         for row in range(rows):
-            if grid[column][row].wall = True
-                x=int(WSIZE*grid[column][row].col)
-                y=int(HSIZE*grid[column][row].row)
-                blockList.append(pygame.Rect((x,y,WSIZE,HSIZE))
+            if (grid[column][row].wall)==True:
+                x=int(WIDTH*grid[column][row].col)
+                y=int(HEIGHT*grid[column][row].row)
+                blockList.append(pygame.Rect((x,y,WIDTH,HEIGHT)))
 
     return blockList
