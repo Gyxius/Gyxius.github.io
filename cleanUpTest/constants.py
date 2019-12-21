@@ -24,8 +24,7 @@ FPS = 10
 
 # Grid
 
-WIDTH = 32
-HEIGHT = 32
+WIDTH = HEIGHT = move = 32
 cols = int(SCREEN_WIDTH/WIDTH)
 rows = int(SCREEN_HEIGHT/HEIGHT)
 grid = []
