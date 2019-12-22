@@ -127,13 +127,17 @@ class Monster_moving(Character):
             if abs(self.posx - player.posx) >32  and  grid[int(self.posx/32)-1][int(self.posy/32)].wall != True:
                 if self.posx - player.posx > 32:
                     self.posx = self.posx - 32
+                    self.position = 1
                 if player.posx - self.posx > 32 and grid[int(self.posx/32)+1][int(self.posy/32)].wall != True:
                     self.posx = self.posx + 32
+                    self.position = 2
             if abs(self.posy - player.posy) >32:
                 if self.posy - player.posy > 32 and  grid[int(self.posx/32)][int(self.posy/32)-1].wall != True:
                     self.posy = self.posy - 32
+                    self.position = 3
                 if player.posy - self.posy > 32 and grid[int(self.posx/32)][int(self.posy/32)+1].wall != True:
                     self.posy = self.posy + 32
+                    self.position = 0
             if abs(self.posy - player.posy) <=32 and abs(self.posx - player.posx) <=32 and player.life > 0:
                 player.life -= 5
                 pygame.mixer.Sound.play(hit_sound)
