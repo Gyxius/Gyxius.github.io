@@ -14,14 +14,18 @@ import random
 from sounds import *
 
 #Initializing pygame
-
 pygame.init()
 clock = pygame.time.Clock()
+pygame.key.set_repeat(1,50)
 
+#Initializing the map
 mapInit()
 block = blockInit()
-pygame.mixer.music.play(-1,0.0)
 screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
+
+#Initializing the background music
+pygame.mixer.music.play(-1,0.0)
+
 game = True
 
 # Initializing the player
@@ -48,7 +52,7 @@ for j in range(i+1,MONSTERS_MOVING_NUMBER + i + 1):
     Monsters[j].set_crop_image(Monsters[j].image,(96,0,32,32))
 
 
-pygame.key.set_repeat(1,50)
+
 
 while game:
 
@@ -88,6 +92,8 @@ while game:
                 else:
                     Player1.posy = Player1.Fy
             Player1.set_crop_image(Player1.image,(96,0,32,32))
+    
+    #Render the map
     screen.fill(WHITE)
     for column in range(cols):
         for row in range(rows):
@@ -154,6 +160,7 @@ while game:
             
     damaged_monsters_id = []
     
+    #If the player get to the top right corner, load a new maze and increase the number of enemies
     i = int(Player1.posx/32)
     j = int(Player1.posy/32)
     if grid[i][j] == grid[cols-1][0]:
