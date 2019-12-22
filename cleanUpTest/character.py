@@ -2,7 +2,6 @@
 """
 import pygame
 from constants import *
-from sounds import*
 import random
 
 class Character(object):
@@ -52,7 +51,13 @@ class Character(object):
     def draw_stats(self, screen):
         pygame.draw.rect(screen,(0,128,0),[self.posx + 6,self.posy + 34,(self.life/4.5),3],0)
     
-    
+    def randomPos(self,grid):
+        randomX = random.randint(0,SCREEN_WIDTH)//32
+        randomY = random.randint(0,SCREEN_HEIGHT)//32
+        while grid[randomX][randomY].wall == True:
+            randomX = random.randint(0,SCREEN_WIDTH)//32
+            randomY = random.randint(0,SCREEN_HEIGHT)//32
+        return (randomX,randomY)
     
 class Player(Character):
     """ The class contains all the methods and attributes for the player """
@@ -67,7 +72,6 @@ class Player(Character):
     def attack(self,monsters_dict,damaged_monsters_id):
         """ the method takes as input the monster dictionnary and check the position
         of each monster in order to attack the monster nearby """
-        pygame.mixer.Sound.play(hit_sound) 
         for key,value in monsters_dict.items():
             if self.position == 1: # 0 being bottom, 1 left, 2 right, and 3 top
                 if ((self.posx // 32) - 1) == (value.posx // 32):
@@ -91,32 +95,26 @@ class Monster_still(Character):
     """ The class contains all the methods and attributes for the monsters who doesn't move """
     def __init__(self, pseudo, id_character):
         Character.__init__(self, id_character)
-        randomX = random.randint(0,SCREEN_WIDTH)//32
-        randomY = random.randint(0,SCREEN_HEIGHT)//32
-        while grid[randomX][randomY].wall == True:
-            randomX = random.randint(0,SCREEN_WIDTH)//32
-            randomY = random.randint(0,SCREEN_HEIGHT)//32
-        self.posx = randomX*32
-        self.posy = randomY*32
+        rand = randomPos(grid)
+        self.posx = rand[0]*32
+        self.posy = rand[1]*32
         self.pseudo = pseudo
         self.state = 'Neutral'
     def get_state(self):
         return self.state
     def set_state(self,state):
         self.state = state
+    
+        
        
 class Monster_moving(Character):
     """ The class contains all the methods and attributes for the monsters who moves without the A* algorithm"""
     def __init__(self, pseudo, id_character):
         Character.__init__(self, id_character)
         self.pseudo = pseudo
-        randomX = random.randint(0,SCREEN_WIDTH)//32
-        randomY = random.randint(0,SCREEN_HEIGHT)//32
-        while grid[randomX][randomY].wall == True:
-            randomX = random.randint(0,SCREEN_WIDTH)//32
-            randomY = random.randint(0,SCREEN_HEIGHT)//32
-        self.posx = randomX*32
-        self.posy = randomY*32
+        rand = randomPos(grid)
+        self.posx = rand[0]*32
+        self.posy = rand[1]*32
         self.state = 'Angry'
     def get_state(self):
         return self.state
@@ -127,18 +125,16 @@ class Monster_moving(Character):
             if abs(self.posx - player.posx) >32  and  grid[int(self.posx/32)-1][int(self.posy/32)].wall != True:
                 if self.posx - player.posx > 32:
                     self.posx = self.posx - 32
-                    self.position = 1
-                if player.posx - self.posx > 32 and grid[int(self.posx/32)+1][int(self.posy/32)].wall != True:
+                elif player.posx - self.posx > 32 and grid[int(self.posx/32)+1][int(self.posy/32)].wall != True:
                     self.posx = self.posx + 32
-                    self.position = 2
+            else:
+                player.life -= 5
             if abs(self.posy - player.posy) >32:
                 if self.posy - player.posy > 32 and  grid[int(self.posx/32)][int(self.posy/32)-1].wall != True:
                     self.posy = self.posy - 32
-                    self.position = 3
-                if player.posy - self.posy > 32 and grid[int(self.posx/32)][int(self.posy/32)+1].wall != True:
+                elif player.posy - self.posy > 32 and grid[int(self.posx/32)][int(self.posy/32)+1].wall != True:
                     self.posy = self.posy + 32
-                    self.position = 0
-            if abs(self.posy - player.posy) <=32 and abs(self.posx - player.posx) <=32 and player.life > 0:
+            else:
                 player.life -= 5
-                pygame.mixer.Sound.play(hit_sound)
+                    
 
