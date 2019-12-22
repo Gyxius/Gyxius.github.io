@@ -10,6 +10,7 @@ import pygame
 from constants import *
 from character import *
 from maps import *
+import random
  #Initializing pygame
 
 pygame.init()
@@ -26,15 +27,27 @@ game = True
 
 # Initializing the player
 Player1 = Player("Gyxius", 1)
-Monster1 = Monster("Greencreeper",2)
 
 #Setting the sprite for the player
 Player1.set_sprite('Sprites/002.png')
-Monster1.set_sprite('Sprites/004.png')
 
 #selecting one character sprite within the image 002.png
 Player1.set_crop_image(Player1.image,(96,0,32,32))
-Monster1.set_crop_image(Monster1.image,(96,0,32,32))
+
+#Initializing the monsters
+Monsters = {}
+damaged_monsters_id = []
+for i in range(MONSTERS_STILL_NUMBER):
+    Monsters[i] = Monster_still("Easy",i)
+    Monsters[i].set_sprite('Sprites/004.png')
+    Monsters[i].set_crop_image(Monsters[i].image,(0,0,32,32))
+
+for j in range(i+1,MONSTERS_MOVING_NUMBER + i + 1):
+    Monsters[j] = Monster_moving("Medium",i)
+    Monsters[j].set_sprite('Sprites/004.png')
+    Monsters[j].set_crop_image(Monsters[j].image,(96,0,32,32))
+
+
 pygame.key.set_repeat(1,50)
 
 while game:
@@ -79,7 +92,32 @@ while game:
             if(grid[column][row].wall):
                 pygame.draw.rect(screen,(BLACK),[HEIGHT*column,HEIGHT*row,HEIGHT,HEIGHT])
     screen.blit(Player1.get_crop_image(),(Player1.getposx(),Player1.getposy()))
-    screen.blit(Monster1.get_crop_image(),(Monster1.getposx(),Monster1.getposy()))
+
+    
+    # Blitting the monsters and updating the monsters info
+    for i in range(MONSTERS_STILL_NUMBER):
+        if i in damaged_monsters_id:
+            Monsters[i].life -= 20
+        screen.blit(Monsters[i].get_crop_image(),(Monsters[i].getposx(),Monsters[i].getposy()))
+    for j in range(i+1,MONSTERS_MOVING_NUMBER + i + 1):
+        random.seed()
+        if j in damaged_monsters_id:
+            Monsters[j].life -= 20
+        # blitting the healthbar
+        Monsters[j].draw_stats(screen)
+        
+        # How to make the monster move randomly with a probability for each movement
+        population = [-1,0,1]
+        weight = [0.005,0.99,0.005]
+        randomx = random.choices(population,weight)[0]
+        randomy = random.choices(population,weight)[0]
+        Monsters[j].posx += 32*randomx
+        Monsters[j].posy += 32*randomy
+
+        screen.blit(Monsters[j].get_crop_image(),(Monsters[j].getposx(),Monsters[j].getposy()))
+
+    damaged_monsters_id = []
+    
     pygame.display.update()
     clock.tick(FPS)
 
