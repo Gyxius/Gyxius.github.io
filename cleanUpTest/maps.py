@@ -39,7 +39,9 @@ class maps():
 
 
 
-def mapInit():  # Initialise each cells
+def mapInit():
+    
+    #Initialise each cells
     for column in range(cols):
         grid.append([])
         for row in range(rows):
@@ -73,7 +75,9 @@ def heuristics(a,b):
 
 def aStar(start,end):
 
+    #openSet is a list of node that need to be check in priority
     openSet = []
+    #closedSet is a list of node that have been checked
     closedSet = []
     start.wall=False
     end.wall=False
@@ -128,6 +132,7 @@ def aStar(start,end):
         if current == end:
             NICE = True
             break
+    #if no solution, load a new map
     if NICE == False:
         grid.clear()
         mapInit()
