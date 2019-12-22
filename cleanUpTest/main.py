@@ -92,8 +92,11 @@ while game:
             pygame.draw.rect(screen,(BLACK),[HEIGHT*column,HEIGHT*row,HEIGHT,HEIGHT],1)
             if(grid[column][row].wall):
                 pygame.draw.rect(screen,(BLACK),[HEIGHT*column,HEIGHT*row,HEIGHT,HEIGHT])
-    screen.blit(Player1.get_crop_image(),(Player1.getposx(),Player1.getposy()))
-    Player1.draw_stats(screen)
+
+    # Update and blit the player
+    if Player1.life > 0:
+        screen.blit(Player1.get_crop_image(),(Player1.getposx(),Player1.getposy()))
+        Player1.draw_stats(screen)
     
     # Blitting the monsters and updating the monsters info
     for i in range(MONSTERS_STILL_NUMBER):
@@ -108,6 +111,7 @@ while game:
         random.seed()
         if j in damaged_monsters_id:
             Monsters[j].life -= 20
+            Monsters[j].state = 'Angry'
         if j not in dead_monsters_id:
             # blitting the healthbar
             Monsters[j].draw_stats(screen)
