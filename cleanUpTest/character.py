@@ -99,9 +99,22 @@ class Monster_moving(Character):
     def __init__(self, pseudo, id_character):
         Character.__init__(self, id_character)
         self.pseudo = pseudo
-        self.state = 'Neutral' 
+        self.state = 'Angry'
     def get_state(self):
         return self.state
     def set_state(self,state):
         self.state = state
+    def attack(self,player):
+        if self.state == 'Angry':
+            if abs(self.posx - player.posx) >32:
+                if self.posx - player.posx > 32:
+                    self.posx = self.posx - 32
+                if player.posx - self.posx > 32:
+                    self.posx = self.posx + 32
+            if abs(self.posy - player.posy) >32:
+                if self.posy - player.posy > 32:
+                    self.posy = self.posy - 32
+                if player.posy - self.posy > 32:
+                    self.posy = self.posy + 32
+                    
 
