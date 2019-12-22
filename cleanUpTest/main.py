@@ -57,6 +57,8 @@ while game:
             game = False
         if event.type == pygame.KEYDOWN:   
             keys = pygame.key.get_pressed()
+            if event.key == pygame.K_e:
+                damaged_monsters_id = Player1.attack(Monsters,damaged_monsters_id)
             if keys[pygame.K_RIGHT]:
                 Player1.position = 2
                 Player1.Fx += move
