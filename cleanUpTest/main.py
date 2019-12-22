@@ -136,7 +136,6 @@ while game:
                     Monsters[j].posy += 32*randomy
                 if Monsters[j].life < 0 and j not in dead_monsters_id:
                     dead_monsters_id.add(j)
-                Monsters[i].set_crop_image(Monsters[i].image,(0,0,32,32))
             elif Monsters[j].state == 'Angry':
                 a = random.randint(0,3)
                 if a == 0:
@@ -146,10 +145,33 @@ while game:
             screen.blit(Monsters[j].get_crop_image(),(Monsters[j].getposx(),Monsters[j].getposy()))
             # blitting the healthbar
             Monsters[j].draw_stats(screen)
-            Monsters[j].set_crop_image(Monsters[j].image,(96,0,32,32))
             
     damaged_monsters_id = []
     
+    i = int(Player1.posx/32)
+    j = int(Player1.posy/32)
+    if grid[i][j] == grid[cols-1][0]:
+        LEVEL +=1
+        MONSTERS_STILL_NUMBER *=LEVEL
+        MONSTERS_MOVING_NUMBER *=LEVEL
+        grid.clear()
+        mapInit()
+        block = blockInit()
+        for i in range(MONSTERS_STILL_NUMBER):
+            Monsters[i] = Monster_still("Easy",i)
+            Monsters[i].set_sprite('Sprites/004.png')
+            Monsters[i].set_crop_image(Monsters[i].image,(0,0,32,32))
+
+        for j in range(i+1,MONSTERS_MOVING_NUMBER + i + 1):
+            Monsters[j] = Monster_moving("Medium",i)
+            Monsters[j].set_sprite('Sprites/004.png')
+            Monsters[j].set_crop_image(Monsters[j].image,(96,0,32,32))
+        Player1.posx = 0
+        Player1.posy = int(rows*32)-32
+        Player1.Fx = 0
+        Player1.Fy = int(rows*32)-32
+        print("Level : ",LEVEL)
+        
     pygame.display.update()
     clock.tick(FPS)
 
