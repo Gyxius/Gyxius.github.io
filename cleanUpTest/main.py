@@ -115,9 +115,6 @@ while game:
             Monsters[j].life -= 20
             Monsters[j].state = 'Angry'
         if j not in dead_monsters_id:
-            # blitting the healthbar
-            Monsters[j].draw_stats(screen)
-            
             # How to make the monster move randomly with a probability for each movement
             population = [-1,0,1]
             weight = [0.005,0.99,0.005]
