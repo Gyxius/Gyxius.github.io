@@ -11,7 +11,9 @@ from constants import *
 from character import *
 from maps import *
 import random
- #Initializing pygame
+from sounds import *
+
+#Initializing pygame
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -57,28 +59,28 @@ while game:
             keys = pygame.key.get_pressed()
             if event.key == pygame.K_e:
                 damaged_monsters_id = Player1.attack(Monsters,damaged_monsters_id)
-            if keys[pygame.K_RIGHT]:
+            elif keys[pygame.K_RIGHT]:
                 Player1.position = 2
                 Player1.Fx += move
                 if (Player1.get_Frect().collidelist(block)) != -1:
                     Player1.Fx = Player1.posx
                 else:
                     Player1.posx = Player1.Fx 
-            if keys[pygame.K_LEFT]:
+            elif keys[pygame.K_LEFT]:
                 Player1.position = 1
                 Player1.Fx -= move
                 if (Player1.get_Frect().collidelist(block)) != -1:
                     Player1.Fx = Player1.posx
                 else:
                     Player1.posx = Player1.Fx 
-            if keys[pygame.K_UP]:
+            elif keys[pygame.K_UP]:
                 Player1.position = 3
                 Player1.Fy -= move
                 if (Player1.get_Frect().collidelist(block)) != -1:
                     Player1.Fy = Player1.posy
                 else:
                     Player1.posy = Player1.Fy 
-            if keys[pygame.K_DOWN]:
+            elif keys[pygame.K_DOWN]:
                 Player1.position = 0
                 Player1.Fy += move
                 if (Player1.get_Frect().collidelist(block)) != -1:
@@ -142,10 +144,12 @@ while game:
                 print(a)
                 if a == 0:
                     Monsters[j].attack(Player1)
-                
-
+            if Monsters[j].life < 0 and j not in dead_monsters_id:
+                dead_monsters_id.add(j)
             screen.blit(Monsters[j].get_crop_image(),(Monsters[j].getposx(),Monsters[j].getposy()))
-
+            # blitting the healthbar
+            Monsters[j].draw_stats(screen)
+            
     damaged_monsters_id = []
     
     pygame.display.update()
