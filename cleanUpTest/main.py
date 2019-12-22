@@ -37,6 +37,7 @@ Player1.set_crop_image(Player1.image,(96,0,32,32))
 #Initializing the monsters
 Monsters = {}
 damaged_monsters_id = []
+dead_monsters_id = set()
 for i in range(MONSTERS_STILL_NUMBER):
     Monsters[i] = Monster_still("Easy",i)
     Monsters[i].set_sprite('Sprites/004.png')
@@ -95,41 +96,48 @@ while game:
             if(grid[column][row].wall):
                 pygame.draw.rect(screen,(BLACK),[HEIGHT*column,HEIGHT*row,HEIGHT,HEIGHT])
     screen.blit(Player1.get_crop_image(),(Player1.getposx(),Player1.getposy()))
-
+    Player1.draw_stats(screen)
     
     # Blitting the monsters and updating the monsters info
     for i in range(MONSTERS_STILL_NUMBER):
         if i in damaged_monsters_id:
             Monsters[i].life -= 20
-        screen.blit(Monsters[i].get_crop_image(),(Monsters[i].getposx(),Monsters[i].getposy()))
+        if i not in dead_monsters_id:
+            screen.blit(Monsters[i].get_crop_image(),(Monsters[i].getposx(),Monsters[i].getposy()))
+            Monsters[i].draw_stats(screen)
+            if Monsters[i].life < 0:
+                dead_monsters_id.add(i)
     for j in range(i+1,MONSTERS_MOVING_NUMBER + i + 1):
         random.seed()
         if j in damaged_monsters_id:
             Monsters[j].life -= 20
-        # blitting the healthbar
-        Monsters[j].draw_stats(screen)
-        
-        # How to make the monster move randomly with a probability for each movement
-        population = [-1,0,1]
-        weight = [0.005,0.99,0.005]
-        
-        randomx = random.choices(population,weight)[0]
-        randomy = random.choices(population,weight)[0]
+        if j not in dead_monsters_id:
+            # blitting the healthbar
+            Monsters[j].draw_stats(screen)
+            
+            # How to make the monster move randomly with a probability for each movement
+            population = [-1,0,1]
+            weight = [0.005,0.99,0.005]
+            
+            randomx = random.choices(population,weight)[0]
+            randomy = random.choices(population,weight)[0]
 
-        cellX = int(Monsters[j].posx/32)
-        cellY = int(Monsters[j].posy/32)
-        
-        if randomx>0 and grid[cellX+1][cellY].wall != True:
-            Monsters[j].posx += 32*randomx
-        elif randomx<0 and  grid[cellX-1][cellY].wall != True:
-            Monsters[j].posx += 32*randomx
-        if randomy>0 and grid[cellX][cellY+1].wall != True:
-            Monsters[j].posy += 32*randomy
-        elif randomy<0 and  grid[cellX][cellY-1].wall != True:
-            Monsters[j].posy += 32*randomy
-        
+            cellX = int(Monsters[j].posx/32)
+            cellY = int(Monsters[j].posy/32)
+            
+            if randomx>0 and grid[cellX+1][cellY].wall != True:
+                Monsters[j].posx += 32*randomx
+            elif randomx<0 and  grid[cellX-1][cellY].wall != True:
+                Monsters[j].posx += 32*randomx
+            if randomy>0 and grid[cellX][cellY+1].wall != True:
+                Monsters[j].posy += 32*randomy
+            elif randomy<0 and  grid[cellX][cellY-1].wall != True:
+                Monsters[j].posy += 32*randomy
+            if Monsters[j].life < 0 and j not in dead_monsters_id:
+                dead_monsters_id.add(j)
+            
 
-        screen.blit(Monsters[j].get_crop_image(),(Monsters[j].getposx(),Monsters[j].getposy()))
+            screen.blit(Monsters[j].get_crop_image(),(Monsters[j].getposx(),Monsters[j].getposy()))
 
     damaged_monsters_id = []
     
