@@ -28,3 +28,9 @@ WIDTH = HEIGHT = move = 32
 cols = int(SCREEN_WIDTH/WIDTH)
 rows = int(SCREEN_HEIGHT/HEIGHT)
 grid = []
+
+
+# How many monsters we want to create
+
+MONSTERS_STILL_NUMBER = 1
+MONSTERS_MOVING_NUMBER = 5
