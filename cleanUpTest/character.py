@@ -2,6 +2,7 @@
 """
 import pygame
 from constants import *
+from sounds import*
 import random
 
 class Character(object):
@@ -72,6 +73,7 @@ class Player(Character):
     def attack(self,monsters_dict,damaged_monsters_id):
         """ the method takes as input the monster dictionnary and check the position
         of each monster in order to attack the monster nearby """
+        pygame.mixer.Sound.play(hit_sound) 
         for key,value in monsters_dict.items():
             if self.position == 1: # 0 being bottom, 1 left, 2 right, and 3 top
                 if ((self.posx // 32) - 1) == (value.posx // 32):
@@ -95,7 +97,7 @@ class Monster_still(Character):
     """ The class contains all the methods and attributes for the monsters who doesn't move """
     def __init__(self, pseudo, id_character):
         Character.__init__(self, id_character)
-        rand = randomPos(grid)
+        rand = self.randomPos(grid)
         self.posx = rand[0]*32
         self.posy = rand[1]*32
         self.pseudo = pseudo
@@ -104,15 +106,13 @@ class Monster_still(Character):
         return self.state
     def set_state(self,state):
         self.state = state
-    
-        
        
 class Monster_moving(Character):
     """ The class contains all the methods and attributes for the monsters who moves without the A* algorithm"""
     def __init__(self, pseudo, id_character):
         Character.__init__(self, id_character)
         self.pseudo = pseudo
-        rand = randomPos(grid)
+        rand = self.randomPos(grid)
         self.posx = rand[0]*32
         self.posy = rand[1]*32
         self.state = 'Angry'
@@ -122,19 +122,17 @@ class Monster_moving(Character):
         self.state = state
     def attack(self,player):
         if self.state == 'Angry':
-            if abs(self.posx - player.posx) >32  and  grid[int(self.posx/32)-1][int(self.posy/32)].wall != True:
-                if self.posx - player.posx > 32:
+            if abs(self.posx - player.posx) >32 :
+                if self.posx - player.posx > 32 and  grid[int(self.posx/32)-1][int(self.posy/32)].wall != True and (SCREEN_WIDTH>self.posx>0):
                     self.posx = self.posx - 32
-                elif player.posx - self.posx > 32 and grid[int(self.posx/32)+1][int(self.posy/32)].wall != True:
+                if player.posx - self.posx > 32 and grid[int(self.posx/32)+1][int(self.posy/32)].wall != True and (SCREEN_WIDTH>self.posx>0):
                     self.posx = self.posx + 32
-            else:
-                player.life -= 5
             if abs(self.posy - player.posy) >32:
-                if self.posy - player.posy > 32 and  grid[int(self.posx/32)][int(self.posy/32)-1].wall != True:
+                if self.posy - player.posy > 32 and  grid[int(self.posx/32)][int(self.posy/32)-1].wall != True and (SCREEN_HEIGHT>self.posy>0):
                     self.posy = self.posy - 32
-                elif player.posy - self.posy > 32 and grid[int(self.posx/32)][int(self.posy/32)+1].wall != True:
+                if player.posy - self.posy > 32 and grid[int(self.posx/32)][int(self.posy/32)+1].wall != True and (SCREEN_HEIGHT>self.posy>0):
                     self.posy = self.posy + 32
-            else:
+            if abs(self.posy - player.posy) <=32 and abs(self.posx - player.posx) <=32 and player.life > 0:
                 player.life -= 5
-                    
+                pygame.mixer.Sound.play(hit_sound)
 
