@@ -104,6 +104,10 @@ while game:
     for i in range(MONSTERS_STILL_NUMBER):
         if i in damaged_monsters_id:
             Monsters[i].life -= 20
+            if Player1.life <= 100:
+                Player1.life += 5
+            if Player1.life > 100:
+                Player1.life = 100
         if i not in dead_monsters_id:
             screen.blit(Monsters[i].get_crop_image(),(Monsters[i].getposx(),Monsters[i].getposy()))
             Monsters[i].draw_stats(screen)
