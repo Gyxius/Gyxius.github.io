@@ -100,7 +100,7 @@ class Monster_moving(Character):
     def __init__(self, pseudo, id_character):
         Character.__init__(self, id_character)
         self.pseudo = pseudo
-        self.state = 'Angry'
+        self.state = 'Neutral'
     def get_state(self):
         return self.state
     def set_state(self,state):
