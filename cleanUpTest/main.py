@@ -20,7 +20,7 @@ clock = pygame.time.Clock()
 
 mapInit()
 block = blockInit()
-
+pygame.mixer.music.play(-1,0.0)
 screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 game = True
 
