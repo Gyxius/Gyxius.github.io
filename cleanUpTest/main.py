@@ -104,7 +104,7 @@ while game:
     for i in range(MONSTERS_STILL_NUMBER):
         if i in damaged_monsters_id:
             Monsters[i].life -= 20
-            if Player1.life <= 100:
+            if Player1.life <= 100 and Player1.life > 0:
                 Player1.life += 5
             if Player1.life > 100:
                 Player1.life = 100
