@@ -1,6 +1,7 @@
 """ This file contains the superclass character and the subclasses monsters and players
 """
 import pygame
+from constants import *
 
 class Character(object):
     """ Basis for the players and all NPC characters """
@@ -106,15 +107,19 @@ class Monster_moving(Character):
         self.state = state
     def attack(self,player):
         if self.state == 'Angry':
-            if abs(self.posx - player.posx) >32:
+            if abs(self.posx - player.posx) >32  and  grid[int(self.posx/32)-1][int(self.posy/32)].wall != True:
                 if self.posx - player.posx > 32:
                     self.posx = self.posx - 32
-                if player.posx - self.posx > 32:
+                if player.posx - self.posx > 32 and grid[int(self.posx/32)+1][int(self.posy/32)].wall != True:
                     self.posx = self.posx + 32
+            else:
+                player.life -= 5
             if abs(self.posy - player.posy) >32:
-                if self.posy - player.posy > 32:
+                if self.posy - player.posy > 32 and  grid[int(self.posx/32)][int(self.posy/32)-1].wall != True:
                     self.posy = self.posy - 32
-                if player.posy - self.posy > 32:
+                if player.posy - self.posy > 32 and grid[int(self.posx/32)][int(self.posy/32)+1].wall != True:
                     self.posy = self.posy + 32
+            else:
+                player.life -= 5
                     
 
