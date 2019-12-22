@@ -62,28 +62,28 @@ while game:
             elif keys[pygame.K_RIGHT]:
                 Player1.position = 2
                 Player1.Fx += move
-                if (Player1.get_Frect().collidelist(block)) != -1:
+                if (Player1.get_Frect().collidelist(block)) != -1 or Player1.Fx>(SCREEN_WIDTH-WIDTH):
                     Player1.Fx = Player1.posx
                 else:
                     Player1.posx = Player1.Fx 
             elif keys[pygame.K_LEFT]:
                 Player1.position = 1
                 Player1.Fx -= move
-                if (Player1.get_Frect().collidelist(block)) != -1:
+                if (Player1.get_Frect().collidelist(block)) != -1 or Player1.Fx<0:
                     Player1.Fx = Player1.posx
                 else:
                     Player1.posx = Player1.Fx 
             elif keys[pygame.K_UP]:
                 Player1.position = 3
                 Player1.Fy -= move
-                if (Player1.get_Frect().collidelist(block)) != -1:
+                if (Player1.get_Frect().collidelist(block)) != -1 or Player1.Fy<0:
                     Player1.Fy = Player1.posy
                 else:
                     Player1.posy = Player1.Fy 
             elif keys[pygame.K_DOWN]:
                 Player1.position = 0
                 Player1.Fy += move
-                if (Player1.get_Frect().collidelist(block)) != -1:
+                if (Player1.get_Frect().collidelist(block)) != -1 or Player1.Fy>(SCREEN_HEIGHT-HEIGHT):
                     Player1.Fy = Player1.posy
                 else:
                     Player1.posy = Player1.Fy
@@ -138,7 +138,6 @@ while game:
                     dead_monsters_id.add(j)
             elif Monsters[j].state == 'Angry':
                 a = random.randint(0,3)
-                print(a)
                 if a == 0:
                     Monsters[j].attack(Player1)
             if Monsters[j].life < 0 and j not in dead_monsters_id:
