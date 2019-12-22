@@ -57,7 +57,7 @@ while game:
             game = False
         if event.type == pygame.KEYDOWN:   
             keys = pygame.key.get_pressed()
-            if event.key == pygame.K_e:
+            if event.key == pygame.K_SPACE:
                 damaged_monsters_id = Player1.attack(Monsters,damaged_monsters_id)
             elif keys[pygame.K_RIGHT]:
                 Player1.position = 2
