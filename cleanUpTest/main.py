@@ -156,8 +156,8 @@ while game:
     j = int(Player1.posy/32)
     if grid[i][j] == grid[cols-1][0]:
         LEVEL +=1
-        MONSTERS_STILL_NUMBER *=LEVEL
-        MONSTERS_MOVING_NUMBER *=LEVEL
+        MONSTERS_STILL_NUMBER +=3*LEVEL
+        MONSTERS_MOVING_NUMBER +=3*LEVEL
         grid.clear()
         mapInit()
         block = blockInit()
