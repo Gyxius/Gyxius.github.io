@@ -2,17 +2,14 @@
 """
 import pygame
 from constants import *
+import random
 
 class Character(object):
     """ Basis for the players and all NPC characters """
     def __init__(self, id_character):
         """ Each character has a sprite and a unique id number """
         self.id = id_character
-        self.posx = 0
-        self.posy = 0
         self.life = 100
-        self.Fx = 0
-        self.Fy = 0
         self.position = 0 # it is the initial position of the sprite with 0 being bottom, 1 left, 2 right, and 3 top
         
     def set_sprite(self,image):
@@ -61,6 +58,10 @@ class Player(Character):
     def __init__(self, pseudo, id_character):
         Character.__init__(self, id_character)
         self.pseudo = pseudo
+        self.posx = 0
+        self.posy = int(rows*32)-32
+        self.Fx = 0
+        self.Fy = int(rows*32)-32
         
     def attack(self,monsters_dict,damaged_monsters_id):
         """ the method takes as input the monster dictionnary and check the position
@@ -88,6 +89,13 @@ class Monster_still(Character):
     """ The class contains all the methods and attributes for the monsters who doesn't move """
     def __init__(self, pseudo, id_character):
         Character.__init__(self, id_character)
+        randomX = random.randint(0,SCREEN_WIDTH)//32
+        randomY = random.randint(0,SCREEN_HEIGHT)//32
+        while grid[randomX][randomY].wall == True:
+            randomX = random.randint(0,SCREEN_WIDTH)//32
+            randomY = random.randint(0,SCREEN_HEIGHT)//32
+        self.posx = randomX*32
+        self.posy = randomY*32
         self.pseudo = pseudo
         self.state = 'Neutral'
     def get_state(self):
@@ -100,7 +108,14 @@ class Monster_moving(Character):
     def __init__(self, pseudo, id_character):
         Character.__init__(self, id_character)
         self.pseudo = pseudo
-        self.state = 'Neutral'
+        randomX = random.randint(0,SCREEN_WIDTH)//32
+        randomY = random.randint(0,SCREEN_HEIGHT)//32
+        while grid[randomX][randomY].wall == True:
+            randomX = random.randint(0,SCREEN_WIDTH)//32
+            randomY = random.randint(0,SCREEN_HEIGHT)//32
+        self.posx = randomX*32
+        self.posy = randomY*32
+        self.state = 'Angry'
     def get_state(self):
         return self.state
     def set_state(self,state):
