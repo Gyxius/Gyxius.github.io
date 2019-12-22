@@ -112,10 +112,22 @@ while game:
         # How to make the monster move randomly with a probability for each movement
         population = [-1,0,1]
         weight = [0.005,0.99,0.005]
+        
         randomx = random.choices(population,weight)[0]
         randomy = random.choices(population,weight)[0]
-        Monsters[j].posx += 32*randomx
-        Monsters[j].posy += 32*randomy
+
+        cellX = int(Monsters[j].posx/32)
+        cellY = int(Monsters[j].posy/32)
+        
+        if randomx>0 and grid[cellX+1][cellY].wall != True:
+            Monsters[j].posx += 32*randomx
+        elif randomx<0 and  grid[cellX-1][cellY].wall != True:
+            Monsters[j].posx += 32*randomx
+        if randomy>0 and grid[cellX][cellY+1].wall != True:
+            Monsters[j].posy += 32*randomy
+        elif randomy<0 and  grid[cellX][cellY-1].wall != True:
+            Monsters[j].posy += 32*randomy
+        
 
         screen.blit(Monsters[j].get_crop_image(),(Monsters[j].getposx(),Monsters[j].getposy()))
 
@@ -126,5 +138,3 @@ while game:
 
 
 pygame.quit()
-
-
