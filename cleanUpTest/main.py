@@ -136,6 +136,7 @@ while game:
                     Monsters[j].posy += 32*randomy
                 if Monsters[j].life < 0 and j not in dead_monsters_id:
                     dead_monsters_id.add(j)
+                Monsters[i].set_crop_image(Monsters[i].image,(0,0,32,32))
             elif Monsters[j].state == 'Angry':
                 a = random.randint(0,3)
                 if a == 0:
@@ -145,6 +146,7 @@ while game:
             screen.blit(Monsters[j].get_crop_image(),(Monsters[j].getposx(),Monsters[j].getposy()))
             # blitting the healthbar
             Monsters[j].draw_stats(screen)
+            Monsters[j].set_crop_image(Monsters[j].image,(96,0,32,32))
             
     damaged_monsters_id = []
     
