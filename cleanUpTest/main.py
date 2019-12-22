@@ -19,9 +19,6 @@ clock = pygame.time.Clock()
 mapInit()
 block = blockInit()
 
-start = grid[0][0]
-end = grid[cols-1][rows-1]
-
 screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 game = True
 
@@ -124,18 +121,24 @@ while game:
 
             cellX = int(Monsters[j].posx/32)
             cellY = int(Monsters[j].posy/32)
-            
-            if randomx>0 and grid[cellX+1][cellY].wall != True:
-                Monsters[j].posx += 32*randomx
-            elif randomx<0 and  grid[cellX-1][cellY].wall != True:
-                Monsters[j].posx += 32*randomx
-            if randomy>0 and grid[cellX][cellY+1].wall != True:
-                Monsters[j].posy += 32*randomy
-            elif randomy<0 and  grid[cellX][cellY-1].wall != True:
-                Monsters[j].posy += 32*randomy
-            if Monsters[j].life < 0 and j not in dead_monsters_id:
-                dead_monsters_id.add(j)
-            
+
+            if Monsters[j].state == 'Neutral':
+                if randomx>0 and grid[cellX+1][cellY].wall != True:
+                    Monsters[j].posx += 32*randomx
+                elif randomx<0 and  grid[cellX-1][cellY].wall != True:
+                    Monsters[j].posx += 32*randomx
+                if randomy>0 and grid[cellX][cellY+1].wall != True:
+                    Monsters[j].posy += 32*randomy
+                elif randomy<0 and  grid[cellX][cellY-1].wall != True:
+                    Monsters[j].posy += 32*randomy
+                if Monsters[j].life < 0 and j not in dead_monsters_id:
+                    dead_monsters_id.add(j)
+            elif Monsters[j].state == 'Angry':
+                a = random.randint(0,3)
+                print(a)
+                if a == 0:
+                    Monsters[j].attack(Player1)
+                
 
             screen.blit(Monsters[j].get_crop_image(),(Monsters[j].getposx(),Monsters[j].getposy()))
 
