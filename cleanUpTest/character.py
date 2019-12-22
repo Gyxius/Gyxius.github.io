@@ -2,6 +2,7 @@
 """
 import pygame
 from constants import *
+from sounds import*
 import random
 
 class Character(object):
@@ -66,6 +67,7 @@ class Player(Character):
     def attack(self,monsters_dict,damaged_monsters_id):
         """ the method takes as input the monster dictionnary and check the position
         of each monster in order to attack the monster nearby """
+        pygame.mixer.Sound.play(hit_sound) 
         for key,value in monsters_dict.items():
             if self.position == 1: # 0 being bottom, 1 left, 2 right, and 3 top
                 if ((self.posx // 32) - 1) == (value.posx // 32):
@@ -127,14 +129,12 @@ class Monster_moving(Character):
                     self.posx = self.posx - 32
                 if player.posx - self.posx > 32 and grid[int(self.posx/32)+1][int(self.posy/32)].wall != True:
                     self.posx = self.posx + 32
-            else:
-                player.life -= 5
             if abs(self.posy - player.posy) >32:
                 if self.posy - player.posy > 32 and  grid[int(self.posx/32)][int(self.posy/32)-1].wall != True:
                     self.posy = self.posy - 32
                 if player.posy - self.posy > 32 and grid[int(self.posx/32)][int(self.posy/32)+1].wall != True:
                     self.posy = self.posy + 32
-            else:
+            if abs(self.posy - player.posy) <=32 and abs(self.posx - player.posx) <=32 and player.life > 0:
                 player.life -= 5
-                    
+                pygame.mixer.Sound.play(hit_sound)
 
