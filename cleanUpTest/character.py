@@ -50,6 +50,10 @@ class Character(object):
     def get_Frect(self):
         return pygame.Rect(self.Fx,self.Fy,32,32)
     
+    def draw_stats(self, screen):
+        pygame.draw.rect(screen,(0,128,0),[self.posx + 6,self.posy + 34,(self.life/4.5),3],0)
+    
+    
     
 class Player(Character):
     """ The class contains all the methods and attributes for the player """
@@ -57,8 +61,47 @@ class Player(Character):
         Character.__init__(self, id_character)
         self.pseudo = pseudo
         
-class Monster(Character):
-    """ The class contains all the methods and attributes for the player """
+    def attack(self,monsters_dict,damaged_monsters_id):
+        """ the method takes as input the monster dictionnary and check the position
+        of each monster in order to attack the monster nearby """
+        for key,value in monsters_dict.items():
+            if self.position == 1: # 0 being bottom, 1 left, 2 right, and 3 top
+                if ((self.posx // 32) - 1) == (value.posx // 32):
+                    if (self.posy // 32) == (value.posy // 32):
+                        damaged_monsters_id.append(key)
+            if self.position == 0:
+                if (self.posx // 32) == (value.posx // 32):
+                    if ((self.posy // 32) + 1) == (value.posy // 32):
+                        damaged_monsters_id.append(key)
+            if self.position == 2:
+                if (((self.posx + 32)// 32)) == (value.posx // 32):
+                    if (self.posy // 32) == (value.posy // 32):
+                        damaged_monsters_id.append(key)
+            if self.position == 3:
+                if (self.posx // 32) == (value.posx // 32):
+                    if ((self.posy // 32) - 1) == (value.posy // 32):
+                        damaged_monsters_id.append(key)
+        return damaged_monsters_id
+        
+class Monster_still(Character):
+    """ The class contains all the methods and attributes for the monsters who doesn't move """
     def __init__(self, pseudo, id_character):
         Character.__init__(self, id_character)
         self.pseudo = pseudo
+        self.state = 'Neutral'
+    def get_state(self):
+        return self.state
+    def set_state(self,state):
+        self.state = state
+       
+class Monster_moving(Character):
+    """ The class contains all the methods and attributes for the monsters who moves without the A* algorithm"""
+    def __init__(self, pseudo, id_character):
+        Character.__init__(self, id_character)
+        self.pseudo = pseudo
+        self.state = 'Neutral' 
+    def get_state(self):
+        return self.state
+    def set_state(self,state):
+        self.state = state
+
