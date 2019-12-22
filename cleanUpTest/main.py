@@ -99,7 +99,9 @@ while game:
     if Player1.life > 0:
         screen.blit(Player1.get_crop_image(),(Player1.getposx(),Player1.getposy()))
         Player1.draw_stats(screen)
-    
+    else:
+        gameO = pygame.image.load("sprites/gameover.png")
+        screen.blit(gameO,(0,0))
     # Blitting the monsters and updating the monsters info
     for i in range(MONSTERS_STILL_NUMBER):
         if i in damaged_monsters_id:
