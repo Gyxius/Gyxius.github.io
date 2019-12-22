@@ -33,4 +33,4 @@ grid = []
 # How many monsters we want to create
 
 MONSTERS_STILL_NUMBER = 1
-MONSTERS_MOVING_NUMBER = 5
+MONSTERS_MOVING_NUMBER = 10
