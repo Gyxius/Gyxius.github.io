@@ -87,6 +87,7 @@ while game:
                     Player1.Fy = Player1.posy
                 else:
                     Player1.posy = Player1.Fy
+            Player1.set_crop_image(Player1.image,(96,0,32,32))
     screen.fill(WHITE)
     for column in range(cols):
         for row in range(rows):
