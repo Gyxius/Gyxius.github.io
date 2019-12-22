@@ -1,3 +1,7 @@
+"""
+Author : Mitsou
+"""
+
 import pygame
 from random import random
 
@@ -165,7 +169,7 @@ while display:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_g:
                     display = False
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_SPACE:
                     aStar(start,end)
                 
     
